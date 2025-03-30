@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macrodata Refinement</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+<body>
+    <div id="exit-button" class="exit-button">Exit</div>
+    <div id="start-screen" class="start-screen">
+        <div class="logo-container">
+            <img src="lumon.svg" alt="Lumon Logo" class="lumon-logo">
+        </div>
+        <h1>Macrodata Refinement</h1>
+        <div class="login-form">
+            <div class="form-group">
+                <input type="text" id="firstName" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="lastName" placeholder="Last Name" required>
+            </div>
+            <div class="form-group">
+                <select id="file-select">
+                    <option value="" disabled selected>Select a File</option>
+                    <option value="Allentown">Allentown</option>
+                    <option value="Appomattox">Appomattox</option>
+                    <option value="Ashland">Ashland</option>
+                    <option value="Atlanta">Atlanta</option>
+                    <option value="Augusta">Augusta</option>
+                    <option value="Bainbridge">Bainbridge</option>
+                    <option value="Bozeman">Bozeman</option>
+                    <option value="Cairns">Cairns</option>
+                    <option value="Cedar Rapids">Cedar Rapids</option>
+                    <option value="Chancellorsville">Chancellorsville</option>
+                    <option value="Cold Harbor">Cold Harbor</option>
+                    <option value="Culpeper">Culpeper</option>
+                    <option value="Dranesville">Dranesville</option>
+                    <option value="Fairfax">Fairfax</option>
+                    <option value="Gainesville">Gainesville</option>
+                    <option value="Lexington">Lexington</option>
+                    <option value="Minsk">Minsk</option>
+                    <option value="Narva">Narva</option>
+                    <option value="Oberlin">Oberlin</option>
+                    <option value="Petersburg">Petersburg</option>
+                    <option value="Rappahannock">Rappahannock</option>
+                    <option value="Richmond">Richmond</option>
+                    <option value="Savannah">Savannah</option>
+                    <option value="Spotsylvania">Spotsylvania</option>
+                    <option value="Tumwater">Tumwater</option>
+                    <option value="Vicksburg">Vicksburg</option>
+                    <option value="Wheeling">Wheeling</option>
+                    <option value="Winchester">Winchester</option>
+                </select>
+            </div>
+            <button id="start-button" class="start-button">Start</button>
+        </div>
+        <div class="controls">
+            <button id="info-button" class="icon-button info-button">i</button>
+        </div>
+    </div>
+
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h2>About Macrodata Refinement</h2>
+            <p>This is a tribute project inspired by the TV show "Severance" on Apple TV+.</p>
+            <p>Created by Akash Sriram as a fan recreation of the Macrodata Refinement (MDR) department interface.</p>
+            <p><strong>How to Play:</strong></p>
+            <ul>
+                <li>Select connected groups of identical numbers</li>
+                <li>Drag them to any of the five bins</li>
+                <li>The numbers have different "tempers" based on their value:
+                    <ul>
+                        <li>0: Dread</li>
+                        <li>1: Malice</li>
+                        <li>Even numbers (2, 4, 6, 8): Woe</li>
+                        <li>Other numbers (3, 5, 7, 9): Frolic</li>
+                    </ul>
+                </li>
+                <li>All bins accept all tempers</li>
+                <li>Complete the file by filling all five bins to 100%</li>
+            </ul>
+            <p>No affiliation with Apple TV+ or the creators of Severance.</p>
+        </div>
+    </div>
+
+    <div id="app-container" class="container hidden">
+        <div class="header">
+            <div class="header-left">
+                <div class="file-name" id="file-name"></div>
+            </div>
+            <div class="header-center">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="main-progress"></div>
+                </div>
+                <div class="progress-text"><span id="progress-percentage">0</span>% Complete</div>
+            </div>
+            <div class="header-right">
+                <img src="lumon.svg" alt="Lumon Logo" class="lumon-logo-small">
+            </div>
+        </div>
+
+        <div class="welcome-message" id="welcome-message"></div>
+        
+        <div id="number-grid" class="number-grid"></div>
+        
+        <div class="bins">
+            <div class="bin" data-bin="0">
+                <span>Bin 01</span>
+                <div class="progress-container">
+                    <div class="progress" id="progress-0"></div>
+                    <div class="progress-text"><span id="bin-progress-0">0</span>%</div>
+                    <div class="temper-distribution">
+                        <span>WO: <span id="temper-wo-0">0</span></span>
+                        <span>FR: <span id="temper-fr-0">0</span></span>
+                        <span>DR: <span id="temper-dr-0">0</span></span>
+                        <span>MA: <span id="temper-ma-0">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bin" data-bin="1">
+                <span>Bin 02</span>
+                <div class="progress-container">
+                    <div class="progress" id="progress-1"></div>
+                    <div class="progress-text"><span id="bin-progress-1">0</span>%</div>
+                    <div class="temper-distribution">
+                        <span>WO: <span id="temper-wo-1">0</span></span>
+                        <span>FR: <span id="temper-fr-1">0</span></span>
+                        <span>DR: <span id="temper-dr-1">0</span></span>
+                        <span>MA: <span id="temper-ma-1">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bin" data-bin="2">
+                <span>Bin 03</span>
+                <div class="progress-container">
+                    <div class="progress" id="progress-2"></div>
+                    <div class="progress-text"><span id="bin-progress-2">0</span>%</div>
+                    <div class="temper-distribution">
+                        <span>WO: <span id="temper-wo-2">0</span></span>
+                        <span>FR: <span id="temper-fr-2">0</span></span>
+                        <span>DR: <span id="temper-dr-2">0</span></span>
+                        <span>MA: <span id="temper-ma-2">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bin" data-bin="3">
+                <span>Bin 04</span>
+                <div class="progress-container">
+                    <div class="progress" id="progress-3"></div>
+                    <div class="progress-text"><span id="bin-progress-3">0</span>%</div>
+                    <div class="temper-distribution">
+                        <span>WO: <span id="temper-wo-3">0</span></span>
+                        <span>FR: <span id="temper-fr-3">0</span></span>
+                        <span>DR: <span id="temper-dr-3">0</span></span>
+                        <span>MA: <span id="temper-ma-3">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bin" data-bin="4">
+                <span>Bin 05</span>
+                <div class="progress-container">
+                    <div class="progress" id="progress-4"></div>
+                    <div class="progress-text"><span id="bin-progress-4">0</span>%</div>
+                    <div class="temper-distribution">
+                        <span>WO: <span id="temper-wo-4">0</span></span>
+                        <span>FR: <span id="temper-fr-4">0</span></span>
+                        <span>DR: <span id="temper-dr-4">0</span></span>
+                        <span>MA: <span id="temper-ma-4">0</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="message" class="message"></div>
+        <div id="thumbs-down" class="thumbs-down hidden">Thumbs Down</div>
+    </div>
+    
+    <div id="completion-screen" class="completion-screen hidden">
+        <div class="completion-content">
+            <img src="lumon.svg" alt="Lumon Logo" class="lumon-logo">
+            <h2>File Refined Successfully</h2>
+            <p>Congratulations! You have completed the refinement process.</p>
+            <p>Waffle party has been added to your schedule.</p>
+            <button id="exit-completion" class="exit-completion-button">Exit</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
